@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
 import { Menu, X, Rocket } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import logo from "@assets/logo.jpg";
+const logo = "/assets/logo.jpg";
 import { Button } from "@/components/ui/button";
 
 const navLinks = [

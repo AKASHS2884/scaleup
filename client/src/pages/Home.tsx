@@ -13,7 +13,7 @@ import {
   CheckCircle2,
   Rocket
 } from "lucide-react";
-import founderImg from "@assets/founder.jpg";
+const founderImg = "/assets/founder.jpg";
 
 export default function Home() {
   const scrollToContact = () => {
