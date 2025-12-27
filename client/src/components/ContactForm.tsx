@@ -1,19 +1,21 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertInquirySchema } from "@shared/schema";
-import { useCreateInquiry } from "@/hooks/use-inquiries";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useToast } from "@/hooks/use-toast";
 import { Loader2, Send } from "lucide-react";
 import { z } from "zod";
+import { useState } from "react";
 
 type FormData = z.infer<typeof insertInquirySchema>;
 
 export function ContactForm() {
-  const { mutate, isPending } = useCreateInquiry();
+  const { toast } = useToast();
+  const [isPending, setIsPending] = useState(false);
 
   const form = useForm<FormData>({
     resolver: zodResolver(insertInquirySchema),
@@ -25,12 +27,37 @@ export function ContactForm() {
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    mutate(data, {
-      onSuccess: () => {
-        form.reset();
-      },
-    });
+  const onSubmit = async (data: FormData) => {
+    setIsPending(true);
+    try {
+      const response = await fetch("/api/inquiries", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.message || "Failed to send message");
+      }
+
+      form.reset();
+      toast({
+        title: "Message Sent!",
+        description: "Thanks for reaching out. We'll be in touch shortly.",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: error instanceof Error ? error.message : "Failed to send message. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsPending(false);
+    }
   };
 
   return (

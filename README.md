@@ -6,7 +6,7 @@ A premium, high-impact digital agency website built with React, TypeScript, and 
 
 - **Modern UI/UX**: Professional design with smooth animations and responsive layout.
 - **Services Showcase**: Detailed sections for Website Development, Automation, and AI Solutions.
-- **Lead Generation**: Functional contact form (currently logs inquiries).
+- **Lead Generation**: Contact form that sends emails directly (no storage needed).
 - **Founder Profile**: dedicated section for the founder.
 
 ## Running Locally on Windows
@@ -38,6 +38,28 @@ A premium, high-impact digital agency website built with React, TypeScript, and 
     - Output Directory: `dist/public`
 4.  **Deploy**: Click **Deploy**.
 
-## Note on Contact Form
+## Contact Form Email Setup
 
-By default, the contact form saves inquiries to in-memory storage (RAM). When the server restarts (or on Vercel serverless functions), data may be reset. For production, you should connect a database (like Supabase or Neon) or an email service (like Resend or SendGrid).
+The contact form sends emails directly using Resend (no storage needed). To enable email functionality:
+
+1. **Get a Resend API Key**:
+   - Sign up at [resend.com](https://resend.com)
+   - Create an API key in your dashboard
+
+2. **Set Environment Variables**:
+   - `RESEND_API_KEY`: Your Resend API key
+   - `CONTACT_EMAIL`: The email address where you want to receive inquiries
+   - `FROM_EMAIL`: (Optional) The "from" email address (defaults to `onboarding@resend.dev`)
+
+3. **For Local Development**:
+   Create a `.env` file in the project root:
+   ```
+   RESEND_API_KEY=re_xxxxxxxxxxxxx
+   CONTACT_EMAIL=your-email@example.com
+   FROM_EMAIL=noreply@yourdomain.com
+   ```
+
+4. **For Vercel Deployment**:
+   - Go to your Vercel project settings
+   - Add the environment variables in the "Environment Variables" section
+   - Redeploy your project
