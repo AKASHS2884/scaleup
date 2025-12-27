@@ -32,10 +32,10 @@ A premium, high-impact digital agency website built with React, TypeScript, and 
     - Click **Add New Project**.
     - Select your GitHub repository.
 3.  **Configure Project**:
-    - Framework Preset: **Vite**
+    - Framework Preset: **Other** (or **Vite** - Vercel will auto-detect)
     - Root Directory: `./`
     - Build Command: `npm run build`
-    - Output Directory: `dist`
+    - Output Directory: `dist/public`
 4.  **Deploy**: Click **Deploy**.
 
 ## Note on Contact Form
